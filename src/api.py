@@ -48,7 +48,7 @@ class Api(object):
         status_code = response.status_code
 
         if status_code < 300:
-            print(f"Creating {resource} {response.json()['id_var']}: {status_code}")
+            print(f"Creating {resource} {response.json()['id']}: {status_code}")
         else:
             print(f"Creating {resource}: {status_code}")
 
