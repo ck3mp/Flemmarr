@@ -35,12 +35,16 @@ class Api(object):
             id_string = ""
 
         print("Fetching {}{}: {}".format(resource, id_string, status_code))
+        print(response.json())
+        print("\n")
 
         if status_code < 300:
             return response.json()
 
     def __create(self, resource, body):
         response = self.r.post(self.__url(resource), json=body)
+        print(response.json())
+
         status_code = response.status_code
 
         if status_code < 300:
@@ -49,9 +53,11 @@ class Api(object):
                     resource, response.json()["id"], status_code
                 )
             )
-            return response.json()
         else:
             print("Creating {}: {}".format(resource, status_code))
+
+        print(response.json())
+        print("\n")
 
     def __edit(self, resource, body, id=None):
         old_version = self.__get(resource, id)
@@ -59,7 +65,8 @@ class Api(object):
         for key in body:
             old_version[key] = body[key]
 
-        status_code = self.r.put(self.__url(resource, id), json=old_version).status_code
+        response = self.r.put(self.__url(resource, id), json=old_version)
+        status_code = response.status_code
 
         if id:
             id_string = " {}".format(id)
@@ -67,6 +74,9 @@ class Api(object):
             id_string = ""
 
         print("Editing {}{}: {}".format(resource, id_string, status_code))
+
+        print(response.json())
+        print("\n")
 
     def __delete(self, resource, id):
         status_code = self.r.delete(self.__url(resource, id)).status_code
